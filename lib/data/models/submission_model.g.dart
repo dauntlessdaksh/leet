@@ -42,7 +42,7 @@ UserRecentAcSubmission _$UserRecentAcSubmissionFromJson(
       id: json['id'] as String?,
       title: json['title'] as String?,
       titleSlug: json['titleSlug'] as String?,
-      timestamp: json['timestamp'] as String?,
+      timestamp: json['timestamp'],
     );
 
 Map<String, dynamic> _$UserRecentAcSubmissionToJson(

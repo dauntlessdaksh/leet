@@ -129,14 +129,17 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
 
   Future<void> _onSearchQuestions(
       SearchQuestions event, Emitter<QuestionsState> emit) async {
+    print('SearchQuestions event received: ${event.query}'); // DEBUG
     emit(QuestionsLoading());
     try {
       final response = await _searchQuestionsUseCase(keyword: event.query);
+      print('Search response received. Count: ${response.data.problemsetQuestionListV2.questions.length}'); // DEBUG
       emit(SearchQuestionsLoaded(
         questions: response.data.problemsetQuestionListV2.questions,
         totalCount: response.data.problemsetQuestionListV2.totalLength,
       ));
     } catch (e) {
+      print('Search error: $e'); // DEBUG
       emit(QuestionsError(e.toString()));
     }
   }

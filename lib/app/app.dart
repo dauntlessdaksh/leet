@@ -39,14 +39,6 @@ class AppView extends StatefulWidget {
 class _AppViewState extends State<AppView> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const QuestionsScreen(),
-    const CompareUsersScreen(),
-    const CalendarScreen(),
-    const SettingsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
@@ -55,7 +47,13 @@ class _AppViewState extends State<AppView> {
           return Scaffold(
             body: IndexedStack(
               index: _currentIndex,
-              children: _screens,
+              children: [
+                const HomeScreen(),
+                const QuestionsScreen(),
+                const CompareUsersScreen(),
+                CalendarScreen(username: state.username),
+                const SettingsScreen(),
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _currentIndex,

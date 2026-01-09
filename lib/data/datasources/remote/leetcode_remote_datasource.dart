@@ -174,7 +174,7 @@ class LeetCodeRemoteDataSource {
           'limit': limit,
           'skip': 0,
           'categorySlug': '',
-          'filters': {},
+          'filters': null,
         },
         'operationName': 'problemsetQuestionListV2',
       },

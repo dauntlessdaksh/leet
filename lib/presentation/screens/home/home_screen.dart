@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    HomeHeader(userInfo: state.userStats?.matchedUser),
+                    HomeHeader(userInfo: state.userInfo),
                     const SizedBox(height: 20),
                     QuestionProgressCard(userStats: state.userStats),
                     const SizedBox(height: 20),

@@ -1,10 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:leet/data/models/user_stats_model.dart';
+import 'package:leet/data/models/user_stats_model.dart';
+import 'package:leet/data/models/user_model.dart';
 import 'package:leet/data/models/calendar_model.dart';
 import 'package:leet/data/models/contest_model.dart';
 import 'package:leet/data/models/badges_model.dart';
 import 'package:leet/data/models/submission_model.dart';
+import 'package:leet/data/models/submission_model.dart';
+import 'package:leet/domain/usecases/fetch_user_profile_usecase.dart';
 import 'package:leet/domain/usecases/fetch_user_stats_usecase.dart';
 import 'package:leet/domain/usecases/fetch_calendar_usecase.dart';
 import 'package:leet/domain/usecases/fetch_contest_rating_usecase.dart';
@@ -45,6 +49,7 @@ class HomeInitial extends HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
+  final LeetCodeUserInfo? userInfo;
   final UserQuestionStatusData? userStats;
   final UserProfileCalendarResponse? calendar;
   final UserContestRankingResponse? contestRanking;
@@ -53,6 +58,7 @@ class HomeLoaded extends HomeState {
   final UserRecentAcSubmissionResponse? recentSubmissions;
 
   HomeLoaded({
+    this.userInfo,
     this.userStats,
     this.calendar,
     this.contestRanking,
@@ -63,6 +69,7 @@ class HomeLoaded extends HomeState {
 
   @override
   List<Object?> get props => [
+        userInfo,
         userStats,
         calendar,
         contestRanking,
@@ -82,6 +89,7 @@ class HomeError extends HomeState {
 
 // Bloc
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final FetchUserProfileUseCase _fetchUserProfileUseCase;
   final FetchUserStatsUseCase _fetchUserStatsUseCase;
   final FetchCalendarUseCase _fetchCalendarUseCase;
   final FetchContestRatingUseCase _fetchContestRatingUseCase;
@@ -89,12 +97,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FetchRecentSubmissionsUseCase _fetchRecentSubmissionsUseCase;
 
   HomeBloc({
+    required FetchUserProfileUseCase fetchUserProfileUseCase,
     required FetchUserStatsUseCase fetchUserStatsUseCase,
     required FetchCalendarUseCase fetchCalendarUseCase,
     required FetchContestRatingUseCase fetchContestRatingUseCase,
     required FetchBadgesUseCase fetchBadgesUseCase,
     required FetchRecentSubmissionsUseCase fetchRecentSubmissionsUseCase,
-  })  : _fetchUserStatsUseCase = fetchUserStatsUseCase,
+  })  : _fetchUserProfileUseCase = fetchUserProfileUseCase,
+        _fetchUserStatsUseCase = fetchUserStatsUseCase,
         _fetchCalendarUseCase = fetchCalendarUseCase,
         _fetchContestRatingUseCase = fetchContestRatingUseCase,
         _fetchBadgesUseCase = fetchBadgesUseCase,
@@ -111,6 +121,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(HomeLoading());
     try {
       final results = await Future.wait([
+        _fetchUserProfileUseCase(username),
         _fetchUserStatsUseCase(username),
         _fetchCalendarUseCase(username),
         _fetchContestRatingUseCase.getUserRanking(username),
@@ -120,12 +131,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ]);
 
       emit(HomeLoaded(
-        userStats: results[0] as UserQuestionStatusData?,
-        calendar: results[1] as UserProfileCalendarResponse?,
-        contestRanking: results[2] as UserContestRankingResponse?,
-        contestHistogram: results[3] as ContestRatingHistogramResponse?,
-        badges: results[4] as UserBadgesResponse?,
-        recentSubmissions: results[5] as UserRecentAcSubmissionResponse?,
+        userInfo: results[0] as LeetCodeUserInfo?,
+        userStats: results[1] as UserQuestionStatusData?,
+        calendar: results[2] as UserProfileCalendarResponse?,
+        contestRanking: results[3] as UserContestRankingResponse?,
+        contestHistogram: results[4] as ContestRatingHistogramResponse?,
+        badges: results[5] as UserBadgesResponse?,
+        recentSubmissions: results[6] as UserRecentAcSubmissionResponse?,
       ));
     } catch (e) {
       emit(HomeError(e.toString()));
