@@ -7,6 +7,7 @@ import 'package:leet/presentation/screens/questions/questions_screen.dart';
 import 'package:leet/presentation/screens/compare/compare_users_screen.dart';
 import 'package:leet/presentation/screens/calendar/calendar_screen.dart';
 import 'package:leet/presentation/screens/contests/contests_screen.dart';
+import 'package:leet/presentation/widgets/app_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:leet/presentation/screens/auth/login_screen.dart';
@@ -19,24 +20,37 @@ class LeetApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Leet',
-      theme: AppTheme.darkTheme.copyWith(
-        textTheme: GoogleFonts.interTextTheme(AppTheme.darkTheme.textTheme),
-      ),
-      home: const AppView(),
+      title: 'LeetCode Tracker',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: AppTheme.bgNeutral,
+        primaryColor: AppTheme.primaryColor,
+        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppTheme.bgNeutral,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppTheme.textPrimary),
+          titleTextStyle: TextStyle(
+            color: AppTheme.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      home: const MainScreen(),
     );
   }
 }
 
-class AppView extends StatefulWidget {
-  const AppView({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<AppView> createState() => _AppViewState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _AppViewState extends State<AppView> {
+class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   @override
@@ -45,6 +59,15 @@ class _AppViewState extends State<AppView> {
       builder: (context, state) {
         if (state is AuthAuthenticated) {
           return Scaffold(
+            drawer: AppDrawer(
+              currentIndex: _currentIndex,
+              onItemTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
             body: IndexedStack(
               index: _currentIndex,
               children: [

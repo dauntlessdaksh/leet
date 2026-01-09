@@ -28,7 +28,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bgNeutral,
       appBar: AppBar(
-        title: const Text('Track'),
+        title: const Text('POTD'),
         backgroundColor: AppTheme.bgNeutral,
         elevation: 0,
       ),
