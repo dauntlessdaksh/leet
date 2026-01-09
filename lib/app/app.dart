@@ -81,7 +81,7 @@ class _AppViewState extends State<AppView> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.calendar_today),
-                  label: 'Activity',
+                  label: 'POTD',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.settings),
