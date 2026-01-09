@@ -8,6 +8,7 @@ import 'package:leet/data/models/badges_model.dart';
 import 'package:leet/data/models/submission_model.dart';
 import 'package:leet/data/models/daily_challenge_model.dart';
 import 'package:leet/data/models/question_model.dart';
+import 'package:leet/data/models/contest_list_model.dart';
 import 'package:leet/core/utils/constants.dart';
 
 class LeetCodeRemoteDataSource {
@@ -180,5 +181,17 @@ class LeetCodeRemoteDataSource {
       },
     );
     return SearchQuestionsResponse.fromJson(response.data);
+  }
+
+  // Fetch all contests from Alfa API
+  Future<AllContestsResponse> fetchAllContests() async {
+    final response = await _dioClient.get(AppConstants.alfaContestsEndpoint);
+    return AllContestsResponse.fromJson(response.data);
+  }
+
+  // Fetch upcoming contests from Alfa API
+  Future<UpcomingContestsResponse> fetchUpcomingContests() async {
+    final response = await _dioClient.get(AppConstants.alfaUpcomingContestsEndpoint);
+    return UpcomingContestsResponse.fromJson(response.data);
   }
 }

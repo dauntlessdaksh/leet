@@ -7,6 +7,7 @@ import 'package:leet/data/models/badges_model.dart';
 import 'package:leet/data/models/submission_model.dart';
 import 'package:leet/data/models/daily_challenge_model.dart';
 import 'package:leet/data/models/question_model.dart'; // Import this
+import 'package:leet/data/models/contest_list_model.dart';
 import 'package:leet/domain/repositories/leetcode_repository.dart';
 
 class LeetCodeRepositoryImpl implements LeetCodeRepository {
@@ -106,5 +107,15 @@ class LeetCodeRepositoryImpl implements LeetCodeRepository {
     int limit = 50,
   }) {
     return _remoteDataSource.searchQuestions(keyword: keyword, limit: limit);
+  }
+
+  @override
+  Future<AllContestsResponse> fetchAllContests() {
+    return _remoteDataSource.fetchAllContests();
+  }
+
+  @override
+  Future<UpcomingContestsResponse> fetchUpcomingContests() {
+    return _remoteDataSource.fetchUpcomingContests();
   }
 }

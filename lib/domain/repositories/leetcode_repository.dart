@@ -6,6 +6,7 @@ import 'package:leet/data/models/badges_model.dart';
 import 'package:leet/data/models/submission_model.dart';
 import 'package:leet/data/models/daily_challenge_model.dart';
 import 'package:leet/data/models/question_model.dart';
+import 'package:leet/data/models/contest_list_model.dart';
 
 abstract class LeetCodeRepository {
   Future<LeetCodeUserInfo?> fetchUserInfo(String username);
@@ -33,4 +34,8 @@ abstract class LeetCodeRepository {
   });
   
   Future<String> fetchQuestionDetails(String titleSlug);
+  
+  // Contest methods
+  Future<AllContestsResponse> fetchAllContests();
+  Future<UpcomingContestsResponse> fetchUpcomingContests();
 }
