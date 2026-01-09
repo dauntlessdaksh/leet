@@ -107,6 +107,7 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
     try {
       final response = await _fetchQuestionsUseCase(
         skip: event.offset,
+        limit: event.offset == 0 ? 1500 : 50, // Load 1500 initially, then 50 per page
         difficulty: event.difficulty,
         status: event.status,
         tags: event.tags,

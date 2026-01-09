@@ -8,6 +8,7 @@ import 'package:leet/presentation/widgets/question_progress_widget.dart';
 import 'package:leet/presentation/widgets/calendar_heatmap_card.dart';
 import 'package:leet/presentation/blocs/auth/auth_bloc.dart';
 import 'package:leet/presentation/widgets/recent_submissions_card.dart';
+import 'package:leet/presentation/widgets/contest_rating_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -88,6 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         activeYears: state.calendar!.data!.matchedUser!.userCalendar!.activeYears?.length ?? 0,
                         totalActiveDays: state.calendar!.data!.matchedUser!.userCalendar!.totalActiveDays ?? 0,
                         streak: state.calendar!.data!.matchedUser!.userCalendar!.streak ?? 0,
+                      ),
+                    const SizedBox(height: 20),
+                    if (state.contestRanking != null && 
+                        state.contestHistogram != null &&
+                        state.contestRanking!.data?.userContestRanking?.attendedContestsCount != null &&
+                        (state.contestRanking!.data!.userContestRanking!.attendedContestsCount ?? 0) > 0)
+                      ContestRatingCard(
+                        histogramData: state.contestHistogram,
+                        userRanking: state.contestRanking,
                       ),
                     const SizedBox(height: 20),
                     if (state.recentSubmissions != null)
