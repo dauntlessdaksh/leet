@@ -169,7 +169,7 @@ class StatisticsCirclePainter extends CustomPainter {
     final radius = math.min(size.width, size.height) / 2 - 10;
 
     final totalProblems = easyTotal + mediumTotal + hardTotal;
-    
+
     if (totalProblems == 0) {
       return;
     }
@@ -185,16 +185,19 @@ class StatisticsCirclePainter extends CustomPainter {
     final hardTotalAngle = hardProportion * 2 * math.pi;
 
     // Calculate solved angles within each section
-    final easySolvedAngle = easyTotal > 0 ? (easySolved / easyTotal) * easyTotalAngle : 0.0;
-    final mediumSolvedAngle = mediumTotal > 0 ? (mediumSolved / mediumTotal) * mediumTotalAngle : 0.0;
-    final hardSolvedAngle = hardTotal > 0 ? (hardSolved / hardTotal) * hardTotalAngle : 0.0;
+    final easySolvedAngle =
+        easyTotal > 0 ? (easySolved / easyTotal) * easyTotalAngle : 0.0;
+    final mediumSolvedAngle =
+        mediumTotal > 0 ? (mediumSolved / mediumTotal) * mediumTotalAngle : 0.0;
+    final hardSolvedAngle =
+        hardTotal > 0 ? (hardSolved / hardTotal) * hardTotalAngle : 0.0;
 
     const gapAngle = 0.03; // Small gap between sections
     const startAngle = -math.pi / 2; // Start from top
 
     // Easy section
     double currentAngle = startAngle;
-    
+
     // Draw Easy background (light green)
     if (easyTotal > 0) {
       final easyBgPaint = Paint()

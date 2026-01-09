@@ -7,6 +7,7 @@ import 'package:leet/presentation/widgets/home_header.dart';
 import 'package:leet/presentation/widgets/question_progress_widget.dart';
 import 'package:leet/presentation/widgets/calendar_heatmap_card.dart';
 import 'package:leet/presentation/blocs/auth/auth_bloc.dart';
+import 'package:leet/presentation/widgets/recent_submissions_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -88,6 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         totalActiveDays: state.calendar!.data!.matchedUser!.userCalendar!.totalActiveDays ?? 0,
                         streak: state.calendar!.data!.matchedUser!.userCalendar!.streak ?? 0,
                       ),
+                    const SizedBox(height: 20),
+                    if (state.recentSubmissions != null)
+                      RecentSubmissionsCard(submissions: state.recentSubmissions),
                   ],
                 ),
               );
