@@ -32,7 +32,7 @@ class UserRecentAcSubmission {
   final String? id;
   final String? title;
   final String? titleSlug;
-  final String? timestamp;
+  final dynamic timestamp;
 
   UserRecentAcSubmission({
     this.id,

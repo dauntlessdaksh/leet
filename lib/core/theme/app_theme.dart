@@ -14,6 +14,9 @@ class AppTheme {
   static const Color mediumColor = Color(0xFFFFC01E);
   static const Color hardColor = Color(0xFFFF375F);
   
+  static const Color primaryBlue = Color(0xFF007AFF); // Added for Calendar
+  static const Color cardBackground = cardBg; // Alias
+  
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,

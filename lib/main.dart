@@ -42,6 +42,7 @@ void main() {
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
+              fetchUserProfileUseCase: FetchUserProfileUseCase(context.read<LeetCodeRepository>()),
               fetchUserStatsUseCase: FetchUserStatsUseCase(context.read<LeetCodeRepository>()),
               fetchCalendarUseCase: FetchCalendarUseCase(context.read<LeetCodeRepository>()),
               fetchContestRatingUseCase: FetchContestRatingUseCase(context.read<LeetCodeRepository>()),
