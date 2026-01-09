@@ -14,11 +14,13 @@ import 'package:leet/domain/usecases/fetch_recent_submissions_usecase.dart';
 import 'package:leet/domain/usecases/fetch_daily_challenge_usecase.dart';
 import 'package:leet/domain/usecases/fetch_questions_usecase.dart';
 import 'package:leet/domain/usecases/search_questions_usecase.dart';
+import 'package:leet/domain/usecases/fetch_all_contests_usecase.dart';
+import 'package:leet/domain/usecases/fetch_upcoming_contests_usecase.dart';
 
 import 'package:leet/presentation/blocs/auth/auth_bloc.dart';
 import 'package:leet/presentation/blocs/home/home_bloc.dart';
 import 'package:leet/presentation/blocs/questions/questions_bloc.dart';
-import 'package:leet/presentation/blocs/settings/settings_bloc.dart';
+import 'package:leet/presentation/blocs/contests/contests_bloc.dart';
 import 'package:leet/presentation/blocs/calendar/calendar_bloc.dart';
 
 void main() {
@@ -62,8 +64,11 @@ void main() {
               fetchDailyChallengeUseCase: FetchDailyChallengeUseCase(context.read<LeetCodeRepository>()),
             ),
           ),
-          BlocProvider<SettingsBloc>(
-            create: (context) => SettingsBloc(),
+          BlocProvider<ContestsBloc>(
+            create: (context) => ContestsBloc(
+              fetchAllContestsUseCase: FetchAllContestsUseCase(context.read<LeetCodeRepository>()),
+              fetchUpcomingContestsUseCase: FetchUpcomingContestsUseCase(context.read<LeetCodeRepository>()),
+            ),
           ),
         ],
         child: const LeetApp(),

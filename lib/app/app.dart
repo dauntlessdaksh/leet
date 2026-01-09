@@ -6,7 +6,7 @@ import 'package:leet/presentation/screens/home/home_screen.dart';
 import 'package:leet/presentation/screens/questions/questions_screen.dart';
 import 'package:leet/presentation/screens/compare/compare_users_screen.dart';
 import 'package:leet/presentation/screens/calendar/calendar_screen.dart';
-import 'package:leet/presentation/screens/settings/settings_screen.dart';
+import 'package:leet/presentation/screens/contests/contests_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:leet/presentation/screens/auth/login_screen.dart';
@@ -52,7 +52,7 @@ class _AppViewState extends State<AppView> {
                 const QuestionsScreen(),
                 const CompareUsersScreen(),
                 CalendarScreen(username: state.username),
-                const SettingsScreen(),
+                const ContestsScreen(),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
@@ -84,8 +84,8 @@ class _AppViewState extends State<AppView> {
                   label: 'POTD',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
+                  icon: Icon(Icons.emoji_events),
+                  label: 'Contests',
                 ),
               ],
             ),
