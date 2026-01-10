@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:leet/core/theme/app_theme.dart';
 import 'package:leet/data/models/user_model.dart';
+import 'package:leet/data/models/badges_model.dart' as badges_model;
+import 'package:leet/presentation/widgets/badge_display.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeHeader extends StatelessWidget {
   final LeetCodeUserInfo? userInfo;
+  final List<badges_model.Badge>? badges;
 
-  const HomeHeader({super.key, required this.userInfo});
+  const HomeHeader({
+    super.key,
+    required this.userInfo,
+    this.badges,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,6 @@ class HomeHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Row(
         children: [
-          // Avatar
           Container(
             width: 80,
             height: 80,
@@ -40,19 +46,36 @@ class HomeHeader extends StatelessWidget {
                   : const Icon(Icons.person, size: 40, color: AppTheme.textSecondary),
             ),
           ),
-          const SizedBox(width: 20),
-          // Info
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  userInfo?.username ?? 'User',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
-                  ),
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        userInfo?.username ?? 'User',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      flex: 1,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: BadgeDisplay(badges: badges, maxDisplay: 3),
+                      ),
+                    ),
+                  ],
                 ),
                 if (userInfo?.profile?.realName != null)
                   Text(
@@ -61,19 +84,24 @@ class HomeHeader extends StatelessWidget {
                       color: AppTheme.textSecondary,
                       fontSize: 16,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppTheme.cardBg,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Rank: ${userInfo?.profile?.ranking?.toString() ?? "N/A"}',
-                    style: const TextStyle(
-                      color: AppTheme.primaryColor,
-                      fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardBg,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'Rank: ${userInfo?.profile?.ranking?.toString() ?? "N/A"}',
+                      style: const TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

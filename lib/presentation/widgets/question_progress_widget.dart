@@ -50,63 +50,69 @@ class QuestionProgressCard extends StatelessWidget {
         color: const Color(0xFF2A2A2A),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
-        children: [
-          // LEFT: Circular Chart
-          SizedBox(
-            width: 140,
-            height: 140,
-            child: CustomPaint(
-              painter: StatisticsCirclePainter(
-                easySolved: easySolved,
-                mediumSolved: mediumSolved,
-                hardSolved: hardSolved,
-                easyTotal: easyTotal,
-                mediumTotal: mediumTotal,
-                hardTotal: hardTotal,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final chartSize = constraints.maxWidth < 350 ? 100.0 : 120.0;
+          final spacing = constraints.maxWidth < 350 ? 16.0 : 24.0;
+          
+          return Row(
+            children: [
+              SizedBox(
+                width: chartSize,
+                height: chartSize,
+                child: CustomPaint(
+                  painter: StatisticsCirclePainter(
+                    easySolved: easySolved,
+                    mediumSolved: mediumSolved,
+                    hardSolved: hardSolved,
+                    easyTotal: easyTotal,
+                    mediumTotal: mediumTotal,
+                    hardTotal: hardTotal,
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '$allSolved',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: chartSize < 110 ? 24 : 32,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '/ $allTotal',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              child: Center(
+              SizedBox(width: spacing),
+              Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      '$allSolved',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      '/ $allTotal',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                      ),
-                    ),
+                    _buildStatRow(
+                        'Easy', easySolved, easyTotal, const Color(0xFF00C853)),
+                    const SizedBox(height: 12),
+                    _buildStatRow(
+                        'Med', mediumSolved, mediumTotal, const Color(0xFFFFD600)),
+                    const SizedBox(height: 12),
+                    _buildStatRow(
+                        'Hard', hardSolved, hardTotal, const Color(0xFFFF5252)),
                   ],
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 32),
-          // RIGHT: Difficulty Stats
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildStatRow(
-                    'Easy', easySolved, easyTotal, const Color(0xFF00C853)),
-                const SizedBox(height: 16),
-                _buildStatRow(
-                    'Med', mediumSolved, mediumTotal, const Color(0xFFFFD600)),
-                const SizedBox(height: 16),
-                _buildStatRow(
-                    'Hard', hardSolved, hardTotal, const Color(0xFFFF5252)),
-              ],
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -126,19 +132,15 @@ class QuestionProgressCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Text(
-          '$solved',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          ' / $total',
-          style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
+        Expanded(
+          child: Text(
+            '$solved / $total',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

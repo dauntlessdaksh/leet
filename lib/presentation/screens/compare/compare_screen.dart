@@ -135,7 +135,7 @@ class _UserStatsCard extends StatelessWidget {
     int hard = 0;
     
     try {
-      totalSolved = stats?.allQuestionsCount?.firstWhere((e) => e.difficulty == 'All').count ?? 0;
+      totalSolved = stats?.matchedUser?.submitStats?.acSubmissionNum?.firstWhere((e) => e.difficulty == 'All').count ?? 0;
     } catch (_) {}
     
     try {

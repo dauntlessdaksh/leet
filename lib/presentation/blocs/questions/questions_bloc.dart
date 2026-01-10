@@ -4,84 +4,8 @@ import 'package:leet/data/models/question_model.dart';
 import 'package:leet/domain/usecases/fetch_questions_usecase.dart';
 import 'package:leet/domain/usecases/search_questions_usecase.dart';
 
-// Events
-abstract class QuestionsEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class LoadQuestions extends QuestionsEvent {
-  final int offset;
-  final String? difficulty;
-  final String? status;
-  final List<String>? tags;
-  final String? searchQuery;
-
-  LoadQuestions({
-    this.offset = 0,
-    this.difficulty,
-    this.status,
-    this.tags,
-    this.searchQuery,
-  });
-  
-  @override
-  List<Object?> get props => [offset, difficulty, status, tags, searchQuery];
-}
-
-class SearchQuestions extends QuestionsEvent {
-  final String query;
-  SearchQuestions(this.query);
-
-  @override
-  List<Object> get props => [query];
-}
-
-// States
-abstract class QuestionsState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class QuestionsInitial extends QuestionsState {}
-
-class QuestionsLoading extends QuestionsState {}
-
-class QuestionsLoaded extends QuestionsState {
-  final List<Question> questions;
-  final int totalCount;
-  final bool hasMore;
-
-  QuestionsLoaded({
-    required this.questions,
-    required this.totalCount,
-    required this.hasMore,
-  });
-
-  @override
-  List<Object> get props => [questions, totalCount, hasMore];
-}
-
-class SearchQuestionsLoaded extends QuestionsState {
-  final List<SearchQuestionNode> questions;
-  final int totalCount;
-
-  SearchQuestionsLoaded({
-    required this.questions,
-    required this.totalCount,
-  });
-
-  @override
-  List<Object> get props => [questions, totalCount];
-}
-
-class QuestionsError extends QuestionsState {
-  final String message;
-  QuestionsError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'questions_event.dart';
+part 'questions_state.dart';
 
 // Bloc
 class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {

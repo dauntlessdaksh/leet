@@ -5,66 +5,8 @@ import 'package:leet/data/models/daily_challenge_model.dart';
 import 'package:leet/domain/usecases/fetch_calendar_usecase.dart';
 import 'package:leet/domain/usecases/fetch_daily_challenge_usecase.dart';
 
-// Events
-abstract class CalendarEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class LoadCalendar extends CalendarEvent {
-  final String username;
-  final int? year;
-  final int? month; // For daily challenges
-
-  LoadCalendar({
-    required this.username,
-    this.year,
-    this.month,
-  });
-  
-  @override
-  @override
-  List<Object?> get props => [username, year, month];
-}
-
-class NextMonth extends CalendarEvent {}
-
-class PreviousMonth extends CalendarEvent {}
-
-// States
-abstract class CalendarState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class CalendarInitial extends CalendarState {}
-
-class CalendarLoading extends CalendarState {}
-
-class CalendarLoaded extends CalendarState {
-  final UserProfileCalendarResponse? calendar;
-  final DailyCodingChallengeResponse? dailyChallenges;
-  // Hold the current displayed month
-  final DateTime? currentMonth;
-
-  CalendarLoaded({
-    this.calendar,
-    this.dailyChallenges,
-    this.currentMonth,
-  });
-
-  @override
-  @override
-  List<Object?> get props => [calendar, dailyChallenges, currentMonth];
-}
-
-class CalendarError extends CalendarState {
-  final String message;
-  CalendarError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'calendar_event.dart';
+part 'calendar_state.dart';
 
 // Bloc
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {

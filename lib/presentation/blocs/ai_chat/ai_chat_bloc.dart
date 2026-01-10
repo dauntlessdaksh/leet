@@ -3,55 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:leet/data/models/chat_message_model.dart';
 import 'package:leet/data/services/gemini_service.dart';
 
-// Events
-abstract class AiChatEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class SendMessage extends AiChatEvent {
-  final String message;
-  SendMessage(this.message);
-  
-  @override
-  List<Object> get props => [message];
-}
-
-class ClearChat extends AiChatEvent {}
-
-// States
-abstract class AiChatState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class ChatInitial extends AiChatState {}
-
-class ChatLoading extends AiChatState {
-  final List<ChatMessage> messages;
-  ChatLoading(this.messages);
-  
-  @override
-  List<Object> get props => [messages];
-}
-
-class ChatLoaded extends AiChatState {
-  final List<ChatMessage> messages;
-  ChatLoaded(this.messages);
-  
-  @override
-  List<Object> get props => [messages];
-}
-
-class ChatError extends AiChatState {
-  final String message;
-  final List<ChatMessage> messages;
-  
-  ChatError(this.message, this.messages);
-  
-  @override
-  List<Object> get props => [message, messages];
-}
+part 'ai_chat_event.dart';
+part 'ai_chat_state.dart';
 
 // BLoC
 class AiChatBloc extends Bloc<AiChatEvent, AiChatState> {

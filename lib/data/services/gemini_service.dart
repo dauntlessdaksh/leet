@@ -1,60 +1,75 @@
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GeminiService {
-  static const String _apiKey = 'AIzaSyCbtmCV4RBgTxhs6P5EqlyoqD6iPnsucCw';
-  late final GenerativeModel _model;
+  static const String _backendUrlKey = 'backend_url';
+  static const String _defaultBackendUrl = 'https://leet-backend-xqth.onrender.com';
+  
+  late final Dio _dio;
+  String _backendUrl = _defaultBackendUrl;
 
   GeminiService() {
-    _model = GenerativeModel(
-      model: 'gemini-2.5-flash',
-      apiKey: _apiKey,
-      generationConfig: GenerationConfig(
-        temperature: 0.9,
-        maxOutputTokens: 1024,
-      ),
-    );
+    _dio = Dio(BaseOptions(
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+    ));
+  }
+
+  Future<void> initialize() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedUrl = prefs.getString(_backendUrlKey);
+    _backendUrl = savedUrl ?? _defaultBackendUrl;
+    
+    // Save the default URL if nothing is saved yet
+    if (savedUrl == null) {
+      await prefs.setString(_backendUrlKey, _defaultBackendUrl);
+    }
+  }
+
+  static Future<void> saveBackendUrl(String url) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_backendUrlKey, url);
+  }
+  
+  static Future<String?> getBackendUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_backendUrlKey);
   }
 
   Future<String> sendMessage(String message, {List<String>? conversationHistory}) async {
     try {
-      final prompt = _buildPrompt(message, conversationHistory);
-      final content = [Content.text(prompt)];
-      final response = await _model.generateContent(content);
-      
-      return response.text ?? 'Sorry, I could not generate a response.';
+      final response = await _dio.post(
+        '$_backendUrl/api/chat',
+        data: {
+          'message': message,
+          'history': conversationHistory,
+        },
+      );
+
+      if (response.statusCode == 200 && response.data['response'] != null) {
+        return response.data['response'];
+      } else {
+        throw Exception('Invalid response from server');
+      }
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        throw Exception('Connection timeout. Please check your backend server.');
+      } else if (e.type == DioExceptionType.connectionError) {
+        throw Exception('Cannot connect to backend server. Make sure it\'s running at $_backendUrl');
+      } else if (e.response?.statusCode == 500) {
+        throw Exception('Server error. Please check your backend logs.');
+      }
+      throw Exception('Network error: ${e.message}');
     } catch (e) {
       throw Exception('Failed to get AI response: $e');
     }
   }
 
-  String _buildPrompt(String message, List<String>? history) {
-    final systemPrompt = '''You are a helpful LeetCode coding assistant. Your role is to:
-- Help users understand coding problems and algorithms
-- Provide hints without giving away complete solutions
-- Explain code and algorithms clearly
-- Suggest optimizations and best practices
-- Answer questions about data structures and algorithms
-
-Keep responses concise and code-focused. Use markdown for code blocks.
-''';
-
-    if (history != null && history.isNotEmpty) {
-      return '$systemPrompt\n\nConversation history:\n${history.join('\n')}\n\nUser: $message\nAssistant:';
-    }
-    
-    return '$systemPrompt\n\nUser: $message\nAssistant:';
-  }
-
   Stream<String> sendMessageStream(String message) async* {
     try {
-      final content = [Content.text(message)];
-      final response = _model.generateContentStream(content);
-      
-      await for (final chunk in response) {
-        if (chunk.text != null) {
-          yield chunk.text!;
-        }
-      }
+      final response = await sendMessage(message);
+      yield response;
     } catch (e) {
       yield 'Error: $e';
     }

@@ -2,46 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:leet/domain/repositories/leetcode_repository.dart';
 
-// Events
-abstract class QuestionDetailsEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class LoadQuestionDetails extends QuestionDetailsEvent {
-  final String titleSlug;
-  LoadQuestionDetails(this.titleSlug);
-  
-  @override
-  List<Object> get props => [titleSlug];
-}
-
-// States
-abstract class QuestionDetailsState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class QuestionDetailsInitial extends QuestionDetailsState {}
-
-class QuestionDetailsLoading extends QuestionDetailsState {}
-
-class QuestionDetailsLoaded extends QuestionDetailsState {
-  final String content; // HTML content
-  
-  QuestionDetailsLoaded(this.content);
-  
-  @override
-  List<Object> get props => [content];
-}
-
-class QuestionDetailsError extends QuestionDetailsState {
-  final String message;
-  QuestionDetailsError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'question_details_event.dart';
+part 'question_details_state.dart';
 
 // Bloc
 class QuestionDetailsBloc extends Bloc<QuestionDetailsEvent, QuestionDetailsState> {

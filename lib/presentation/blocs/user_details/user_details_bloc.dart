@@ -9,54 +9,8 @@ import 'package:leet/domain/usecases/fetch_contest_rating_usecase.dart';
 import 'package:leet/domain/usecases/fetch_recent_submissions_usecase.dart';
 import 'package:leet/data/models/submission_model.dart';
 
-// Events
-abstract class UserDetailsEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class LoadUserDetails extends UserDetailsEvent {
-  final String username;
-  LoadUserDetails(this.username);
-  
-  @override
-  List<Object> get props => [username];
-}
-
-// States
-abstract class UserDetailsState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserDetailsInitial extends UserDetailsState {}
-
-class UserDetailsLoading extends UserDetailsState {}
-
-class UserDetailsLoaded extends UserDetailsState {
-  final LeetCodeUserInfo? userProfile;
-  final UserQuestionStatusData? userStats;
-  final UserContestRankingResponse? contestRanking;
-  final UserRecentAcSubmissionResponse? recentSubmissions;
-
-  UserDetailsLoaded({
-    this.userProfile,
-    this.userStats,
-    this.contestRanking,
-    this.recentSubmissions,
-  });
-
-  @override
-  List<Object?> get props => [userProfile, userStats, contestRanking, recentSubmissions];
-}
-
-class UserDetailsError extends UserDetailsState {
-  final String message;
-  UserDetailsError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'user_details_event.dart';
+part 'user_details_state.dart';
 
 // Bloc
 class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {

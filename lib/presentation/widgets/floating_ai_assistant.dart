@@ -303,7 +303,7 @@ class _AiChatBottomSheetState extends State<_AiChatBottomSheet> {
                     }
 
                     return ListView.builder(
-                      controller: _scrollController,
+                      controller: scrollController, // Use the controller from DraggableScrollableSheet
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount:
                           messages.length + (state is ChatLoading ? 1 : 0),

@@ -4,51 +4,8 @@ import 'package:leet/domain/usecases/fetch_user_profile_usecase.dart';
 import 'package:leet/core/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Events
-abstract class AuthEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class CheckAuthStatus extends AuthEvent {}
-
-class LoginRequested extends AuthEvent {
-  final String username;
-  LoginRequested(this.username);
-
-  @override
-  List<Object> get props => [username];
-}
-
-class LogoutRequested extends AuthEvent {}
-
-// States
-abstract class AuthState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class AuthInitial extends AuthState {}
-
-class AuthLoading extends AuthState {}
-
-class AuthAuthenticated extends AuthState {
-  final String username;
-  AuthAuthenticated(this.username);
-
-  @override
-  List<Object> get props => [username];
-}
-
-class AuthUnauthenticated extends AuthState {}
-
-class AuthError extends AuthState {
-  final String message;
-  AuthError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 // Bloc
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
