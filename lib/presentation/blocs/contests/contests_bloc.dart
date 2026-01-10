@@ -4,52 +4,8 @@ import 'package:leet/data/models/contest_list_model.dart';
 import 'package:leet/domain/usecases/fetch_all_contests_usecase.dart';
 import 'package:leet/domain/usecases/fetch_upcoming_contests_usecase.dart';
 
-// Events
-abstract class ContestsEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class LoadAllContests extends ContestsEvent {}
-
-class LoadUpcomingContests extends ContestsEvent {}
-
-// States
-abstract class ContestsState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class ContestsInitial extends ContestsState {}
-
-class ContestsLoading extends ContestsState {}
-
-class AllContestsLoaded extends ContestsState {
-  final List<ContestItem> contests;
-
-  AllContestsLoaded(this.contests);
-
-  @override
-  List<Object> get props => [contests];
-}
-
-class UpcomingContestsLoaded extends ContestsState {
-  final List<ContestItem> contests;
-
-  UpcomingContestsLoaded(this.contests);
-
-  @override
-  List<Object> get props => [contests];
-}
-
-class ContestsError extends ContestsState {
-  final String message;
-
-  ContestsError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
+part 'contests_event.dart';
+part 'contests_state.dart';
 
 // BLoC
 class ContestsBloc extends Bloc<ContestsEvent, ContestsState> {
