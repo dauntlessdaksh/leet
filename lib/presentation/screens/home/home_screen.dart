@@ -35,21 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgNeutral,
-      appBar: AppBar(
-        title: const Text('Hi LeetCoder!'),
-        leading: IconButton(
-          icon: const Icon(Icons.menu_rounded),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthBloc>().add(LogoutRequested());
-            },
-          ),
-        ],
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           final authState = context.read<AuthBloc>().state;
@@ -83,7 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    HomeHeader(userInfo: state.userInfo),
+                    HomeHeader(
+                      userInfo: state.userInfo,
+                      badges: state.badges?.data?.matchedUser?.badges,
+                    ),
                     const SizedBox(height: 20),
                     QuestionProgressCard(userStats: state.userStats),
                     const SizedBox(height: 20),

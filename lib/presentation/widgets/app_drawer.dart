@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:leet/core/theme/app_theme.dart';
 import 'package:leet/presentation/blocs/auth/auth_bloc.dart';
+import 'package:leet/presentation/blocs/home/home_bloc.dart';
+import 'package:leet/presentation/widgets/badge_display.dart';
 
 class AppDrawer extends StatelessWidget {
   final int currentIndex;
@@ -61,12 +63,36 @@ class AppDrawer extends StatelessWidget {
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is AuthAuthenticated) {
-                      return Text(
-                        '@${state.username}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white.withOpacity(0.9),
-                        ),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  '@${state.username}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white.withOpacity(0.9),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              BlocBuilder<HomeBloc, HomeState>(
+                                builder: (context, homeState) {
+                                  if (homeState is HomeLoaded) {
+                                    return BadgeDisplay(
+                                      badges: homeState.badges?.data?.matchedUser?.badges,
+                                      maxDisplay: 2,
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     }
                     return const SizedBox();

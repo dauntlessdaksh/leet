@@ -68,11 +68,15 @@ class CalendarHeatmapCard extends StatelessWidget {
           const SizedBox(height: 20),
           HeatMap(
             datasets: datasets,
-            colorMode: ColorMode.opacity,
+            colorMode: ColorMode.color,
             showText: false,
             scrollable: true,
+            showColorTip: false,
             colorsets: const {
-               1: AppTheme.primaryColor,
+               1: Color(0x59FFC01E), // 35% opacity - very light yellow
+               2: Color(0x99FFC01E), // 60% opacity - medium light yellow
+               3: Color(0xCCFFC01E), // 80% opacity - bright yellow
+               4: Color(0xFFFFC01E), // 100% opacity - full bright yellow
             },
             onClick: (value) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -87,6 +91,66 @@ class CalendarHeatmapCard extends StatelessWidget {
             textColor: AppTheme.textSecondary,
           ),
           const SizedBox(height: 12),
+          Row(
+            children: [
+              const Text(
+                'Less',
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: AppTheme.bgNeutral,
+                  border: Border.all(color: AppTheme.textSecondary.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: const Color(0x59FFC01E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: const Color(0x99FFC01E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: const Color(0xCCFFC01E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFC01E),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Text(
+                'More',
+                style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
           Text(
             'Total Active Days: $totalActiveDays',
              style: const TextStyle(color: AppTheme.textSecondary),

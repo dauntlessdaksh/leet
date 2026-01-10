@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:leet/core/theme/app_theme.dart';
 import 'package:leet/data/models/user_model.dart';
+import 'package:leet/data/models/badges_model.dart' as badges_model;
+import 'package:leet/presentation/widgets/badge_display.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeHeader extends StatelessWidget {
   final LeetCodeUserInfo? userInfo;
+  final List<badges_model.Badge>? badges;
 
-  const HomeHeader({super.key, required this.userInfo});
+  const HomeHeader({
+    super.key,
+    required this.userInfo,
+    this.badges,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +53,22 @@ class HomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  userInfo?.username ?? 'User',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
-                  ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        userInfo?.username ?? 'User',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    BadgeDisplay(badges: badges, maxDisplay: 3),
+                  ],
                 ),
                 if (userInfo?.profile?.realName != null)
                   Text(
