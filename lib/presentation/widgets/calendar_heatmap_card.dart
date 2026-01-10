@@ -40,29 +40,38 @@ class CalendarHeatmapCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Submission Activity',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+              const Flexible(
+                child: Text(
+                  'Submission Activity',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textPrimary,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Row(
-                children: [
-                   const Icon(Icons.local_fire_department, color: AppTheme.primaryColor, size: 20),
-                   const SizedBox(width: 4),
-                   Text(
-                     '$streak Day Streak',
-                     style: const TextStyle(
-                       color: AppTheme.textPrimary,
-                       fontWeight: FontWeight.bold,
-                     ),
-                   ),
-                ],
-              )
+              const SizedBox(width: 8),
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.local_fire_department, color: AppTheme.primaryColor, size: 20),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        '$streak Day Streak',
+                        style: const TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),

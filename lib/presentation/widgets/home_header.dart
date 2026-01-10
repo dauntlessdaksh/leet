@@ -24,7 +24,6 @@ class HomeHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Row(
         children: [
-          // Avatar
           Container(
             width: 80,
             height: 80,
@@ -47,15 +46,16 @@ class HomeHeader extends StatelessWidget {
                   : const Icon(Icons.person, size: 40, color: AppTheme.textSecondary),
             ),
           ),
-          const SizedBox(width: 20),
-          // Info
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
                     Flexible(
+                      flex: 2,
                       child: Text(
                         userInfo?.username ?? 'User',
                         style: const TextStyle(
@@ -64,10 +64,17 @@ class HomeHeader extends StatelessWidget {
                           color: AppTheme.textPrimary,
                         ),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    BadgeDisplay(badges: badges, maxDisplay: 3),
+                    Flexible(
+                      flex: 1,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: BadgeDisplay(badges: badges, maxDisplay: 3),
+                      ),
+                    ),
                   ],
                 ),
                 if (userInfo?.profile?.realName != null)
@@ -77,19 +84,24 @@ class HomeHeader extends StatelessWidget {
                       color: AppTheme.textSecondary,
                       fontSize: 16,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppTheme.cardBg,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Rank: ${userInfo?.profile?.ranking?.toString() ?? "N/A"}',
-                    style: const TextStyle(
-                      color: AppTheme.primaryColor,
-                      fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardBg,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'Rank: ${userInfo?.profile?.ranking?.toString() ?? "N/A"}',
+                      style: const TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

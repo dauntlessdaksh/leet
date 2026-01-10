@@ -186,11 +186,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           );
-        } else {
-          // If not authenticated, show login screen
-          // We need to import LoginScreen
-          return const LoginScreenWrapper();
         }
+        
+        // For all other states (AuthUnauthenticated, AuthInitial, AuthLoading, AuthError)
+        // Show login screen
+        return const LoginScreenWrapper();
       },
     );
   }

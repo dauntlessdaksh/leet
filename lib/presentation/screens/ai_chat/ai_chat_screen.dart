@@ -12,9 +12,18 @@ class AiChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AiChatBloc(geminiService: GeminiService()),
-      child: const _AiChatView(),
+    final service = GeminiService();
+    return FutureBuilder(
+      future: service.initialize(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return BlocProvider(
+          create: (context) => AiChatBloc(geminiService: service),
+          child: const _AiChatView(),
+        );
+      },
     );
   }
 }
@@ -43,7 +52,6 @@ class _AiChatViewState extends State<_AiChatView> {
       context.read<AiChatBloc>().add(SendMessage(message));
       _messageController.clear();
       
-      // Scroll to bottom after sending
       Future.delayed(const Duration(milliseconds: 100), () {
         if (_scrollController.hasClients) {
           _scrollController.animateTo(
@@ -54,6 +62,76 @@ class _AiChatViewState extends State<_AiChatView> {
         }
       });
     }
+  }
+  
+  void _showApiKeyDialog() async {
+    final controller = TextEditingController();
+    final currentUrl = await GeminiService.getBackendUrl();
+    controller.text = currentUrl ?? 'http://localhost:3000';
+    
+    if (!mounted) return;
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.cardBg,
+        title: const Text('Backend Server Settings', style: TextStyle(color: AppTheme.textPrimary)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter your backend server URL:',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Local: http://localhost:3000\nDeployed: https://your-app.onrender.com',
+              style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: controller,
+              style: const TextStyle(color: AppTheme.textPrimary),
+              decoration: InputDecoration(
+                hintText: 'http://localhost:3000',
+                hintStyle: const TextStyle(color: AppTheme.textSecondary),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppTheme.primaryColor.withOpacity(0.3)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: AppTheme.textSecondary.withOpacity(0.3)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: AppTheme.primaryColor),
+                ),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await GeminiService.saveBackendUrl(controller.text.trim());
+              if (!context.mounted) return;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Backend URL saved! Please restart the app.')),
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryColor),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -76,6 +154,11 @@ class _AiChatViewState extends State<_AiChatView> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_rounded),
+            onPressed: _showApiKeyDialog,
+            tooltip: 'Backend Settings',
+          ),
           IconButton(
             icon: const Icon(Icons.delete_outline_rounded),
             onPressed: () {

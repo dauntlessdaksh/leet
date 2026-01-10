@@ -71,9 +71,58 @@ class _AllContestsTabState extends State<_AllContestsTab> {
             },
           );
         } else if (state is ContestsError) {
+          final is429Error = state.message.contains('429');
           return Center(
-            child: Text('Error: ${state.message}',
-                style: const TextStyle(color: Colors.red)),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    is429Error ? Icons.hourglass_empty : Icons.error_outline,
+                    size: 64,
+                    color: is429Error ? AppTheme.primaryColor : Colors.red,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    is429Error
+                        ? 'Rate Limit Reached'
+                        : 'Error Loading Contests',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    is429Error
+                        ? 'LeetCode API has rate limiting. Please wait a moment before trying again.'
+                        : state.message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: AppTheme.textSecondary,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      context.read<ContestsBloc>().add(LoadAllContests());
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
         return const SizedBox();
@@ -115,9 +164,58 @@ class _UpcomingContestsTabState extends State<_UpcomingContestsTab> {
             },
           );
         } else if (state is ContestsError) {
+          final is429Error = state.message.contains('429');
           return Center(
-            child: Text('Error: ${state.message}',
-                style: const TextStyle(color: Colors.red)),
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    is429Error ? Icons.hourglass_empty : Icons.error_outline,
+                    size: 64,
+                    color: is429Error ? AppTheme.primaryColor : Colors.red,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    is429Error
+                        ? 'Rate Limit Reached'
+                        : 'Error Loading Contests',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    is429Error
+                        ? 'LeetCode API has rate limiting. Please wait a moment before trying again.'
+                        : state.message,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: AppTheme.textSecondary,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      context.read<ContestsBloc>().add(LoadUpcomingContests());
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.primaryColor,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
         return const SizedBox();
