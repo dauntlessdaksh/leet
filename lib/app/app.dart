@@ -7,6 +7,7 @@ import 'package:leet/presentation/screens/questions/questions_screen.dart';
 import 'package:leet/presentation/screens/compare/compare_users_screen.dart';
 import 'package:leet/presentation/screens/calendar/calendar_screen.dart';
 import 'package:leet/presentation/screens/contests/contests_screen.dart';
+import 'package:leet/presentation/screens/ai_chat/ai_chat_screen.dart';
 import 'package:leet/presentation/widgets/app_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -76,10 +77,11 @@ class _MainScreenState extends State<MainScreen> {
                 const CompareUsersScreen(),
                 CalendarScreen(username: state.username),
                 const ContestsScreen(),
+                const AiChatScreen(),
               ],
             ),
             bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _currentIndex,
+              currentIndex: _currentIndex > 4 ? 0 : _currentIndex, // Clamp to valid range
               onTap: (index) {
                 setState(() {
                   _currentIndex = index;

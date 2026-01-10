@@ -111,6 +111,12 @@ class AppDrawer extends StatelessWidget {
                   isSelected: currentIndex == 4,
                   onTap: () => onItemTap(4),
                 ),
+                _DrawerItem(
+                  icon: Icons.smart_toy_rounded,
+                  title: 'AI Assistant',
+                  isSelected: currentIndex == 5,
+                  onTap: () => onItemTap(5),
+                ),
                 const Divider(height: 32, thickness: 1),
                 _DrawerItem(
                   icon: Icons.logout_rounded,

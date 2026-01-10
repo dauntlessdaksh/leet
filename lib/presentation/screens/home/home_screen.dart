@@ -37,11 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppTheme.bgNeutral,
       appBar: AppBar(
         title: const Text('Hi LeetCoder!'),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu_rounded),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.menu_rounded),
+          onPressed: () => Scaffold.of(context).openDrawer(),
         ),
         actions: [
           IconButton(
