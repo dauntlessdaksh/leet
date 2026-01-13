@@ -7,6 +7,38 @@
 
 A comprehensive cross-platform application built with **Flutter** and **Clean Architecture** that helps developers track their LeetCode progress, compare with others, and visualize their coding journey through beautiful analytics and widgets.
 
+## 📱 Screenshots
+
+<div align="center">
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.42.jpeg" width="250" alt="Screenshot 1"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.43.jpeg" width="250" alt="Screenshot 2"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.43 (1).jpeg" width="250" alt="Screenshot 3"/>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.43 (2).jpeg" width="250" alt="Screenshot 4"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.44.jpeg" width="250" alt="Screenshot 5"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.44 (1).jpeg" width="250" alt="Screenshot 6"/>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.44 (2).jpeg" width="250" alt="Screenshot 7"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.45.jpeg" width="250" alt="Screenshot 8"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.45 (1).jpeg" width="250" alt="Screenshot 9"/>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.45 (2).jpeg" width="250" alt="Screenshot 10"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.45 (3).jpeg" width="250" alt="Screenshot 11"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.46.jpeg" width="250" alt="Screenshot 12"/>
+</div>
+
+<div align="center">
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.46 (1).jpeg" width="250" alt="Screenshot 13"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.46 (2).jpeg" width="250" alt="Screenshot 14"/>
+  <img src="assets/screenshots/WhatsApp Image 2026-01-11 at 02.00.47.jpeg" width="250" alt="Screenshot 15"/>
+</div>
+
 ## ✨ Features
 
 ### 📊 Dashboard & Analytics
